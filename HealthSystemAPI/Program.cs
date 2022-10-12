@@ -46,13 +46,14 @@ namespace HealthSystemAPI
 
         static void ShowHUD()
         {
-            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("===========");
             Console.WriteLine("Player HP: " + playerHealth);
-            Console.WriteLine();
+            Console.WriteLine("===========");
             Console.WriteLine("Player Stamina: " + playerShield);
-            Console.WriteLine();
+            Console.WriteLine("===========");
             Console.WriteLine("Player Lives: " + playerLives);
-            Console.WriteLine();
+            Console.WriteLine("===========");
         }
 
         static void Enemy()
