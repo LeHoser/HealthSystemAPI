@@ -16,10 +16,10 @@ namespace HealthSystemAPI
         static int playerExperienceThreshhold;
         static int playerLevel;
 
-        static public bool impEncounter;
-        static public bool goblinEncounter;
-        static public bool orcEncounter;
-        static public bool dragonEncounter;
+        static bool impEncounter;
+        static bool goblinEncounter;
+        static bool orcEncounter;
+        static bool dragonEncounter;
 
         static Random rdn = new Random();
 
@@ -38,7 +38,11 @@ namespace HealthSystemAPI
             while(playerLives > 0)
             {
                 ShowHUD();
-                
+                TakeDamage(200);
+                ShowHUD();
+                TakeDamage(200);
+                ShowHUD();
+                TakeDamage(200);
                 ShowHUD();
                 Console.ReadKey(true);
             }
@@ -46,23 +50,39 @@ namespace HealthSystemAPI
 
         static void ShowHUD()
         {
-            Console.WriteLine("===========");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Player HP: " + playerHealth);
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("===========");
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("Player shields: " + playerShield);
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("===========");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Player Lives: " + playerLives);
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("===========");
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("Player Experience: " + playerExperience);
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("===========");
+            if(playerLives > 0)
+            {
+                Console.WriteLine("===========");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Player HP: " + playerHealth);
+                HealthStatus();
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("===========");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("Player shields: " + playerShield);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("===========");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Player Lives: " + playerLives);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("===========");
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("Player Level: " + playerLevel);
+                Console.WriteLine("Player Experience: " + playerExperience);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("===========");
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.Write("The player has ");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(0);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(" lives left");
+                Console.WriteLine();
+                Console.WriteLine();
+            }
         }
 
         static void Enemy()
@@ -109,6 +129,26 @@ namespace HealthSystemAPI
             }
         }
 
+        static void HealthStatus()
+        {
+            if(playerHealth >= 75)
+            {
+                Console.WriteLine("Immaculate");
+            }
+            else if(playerHealth < 75 && playerHealth >= 50)
+            {
+                Console.WriteLine("Player has sustained some bumps and brusies");
+            }
+            else if(playerHealth < 50 && playerHealth > 25)
+            {
+                Console.WriteLine("Player is injured. Consider healing soon");
+            }
+            else if(playerHealth <= 25 && playerHealth > 0)
+            {
+                Console.WriteLine("Death is imminent");
+            }
+        }
+
         static void HealHP(int healAmount)
         {
             if(healAmount < 0)
@@ -122,8 +162,13 @@ namespace HealthSystemAPI
             {
                 if (playerHealth < 100 && playerMana >= 5)
                 {
+                    Console.Write("Player is about to heal ");
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Player is about to heal " + healAmount + " points of health");
+                    Console.Write(healAmount);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(" points of health");
+                    Console.WriteLine();
+                    Console.WriteLine();
                     playerMana -= 5;
                     if (playerHealth > 100)
                     {
@@ -160,18 +205,29 @@ namespace HealthSystemAPI
             else
             {
                 Console.WriteLine();
+                Console.Write("The player is gaining ");
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("The player is gaining " + expPoints + " points of experience");
+                Console.Write(expPoints);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(" points of experience");
                 Console.WriteLine();
                 playerExperience = playerExperience + expPoints;
                 if(playerExperience > 100)
                 {
+                    Console.WriteLine();
+                    Console.WriteLine("The player is about to level up");
                     spillOver = playerExperience - 100;
                     playerExperience = spillOver;
+                    playerLevel += 1;
                 }
             }
             Console.WriteLine();
-            Console.WriteLine("The player has " + playerExperience + " experience points");
+            Console.Write("The player has ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(playerExperience);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(" experience points");
+            Console.WriteLine();
             Console.WriteLine();
         }
 
@@ -204,8 +260,13 @@ namespace HealthSystemAPI
             {
                 if (playerShield > 0)
                 {
+                    Console.Write("Player is about to take ");
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Player is about to take " + damage + " points of damage");
+                    Console.Write(damage);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(" Points of damage");
+                    Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.White;
                     playerShield -= damage;
                     if (playerShield < 0)
                     {
@@ -217,6 +278,7 @@ namespace HealthSystemAPI
                             playerLives -= 1;
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Player is about to lose a life");
+                            Console.ForegroundColor = ConsoleColor.White;
                             Console.WriteLine();
                             playerHealth = 100;
                             playerShield = 100;
@@ -225,6 +287,7 @@ namespace HealthSystemAPI
                                 playerLives = 0;
                                 Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine("Game Over");
+                                Console.ForegroundColor = ConsoleColor.White;
                             }
                         }
                     }
@@ -267,8 +330,12 @@ namespace HealthSystemAPI
                 if (playerShield < 100)
                 {
                     Console.WriteLine();
+                    Console.Write("Player is regenerating ");
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Player is regenerating " + healAmount + " points of shields");
+                    Console.Write(healAmount);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(" points of shields");
+                    Console.WriteLine();
                     Console.WriteLine();
                     playerShield = playerShield + healAmount;
                     if (playerShield > 100)
