@@ -21,13 +21,6 @@ namespace HealthSystemAPI
         static public bool orcEncounter;
         static public bool dragonEncounter;
 
-        static int Rifle;
-        static int Shotgun;
-
-        static int weaponDamage;
-
-        static string choice;
-
         static Random rdn = new Random();
 
         static void Main(string[] args)
@@ -45,6 +38,7 @@ namespace HealthSystemAPI
             while(playerLives > 0)
             {
                 ShowHUD();
+                
                 Console.ReadKey(true);
             }
         }
@@ -57,12 +51,14 @@ namespace HealthSystemAPI
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("===========");
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("Player Stamina: " + playerShield);
+            Console.WriteLine("Player shields: " + playerShield);
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("===========");
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Player Lives: " + playerLives);
             Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("===========");
+            Console.WriteLine("Player Experience: " + playerExperience);
             Console.WriteLine("===========");
         }
 
@@ -114,6 +110,7 @@ namespace HealthSystemAPI
         {
             if(healAmount < 0)
             {
+                Console.WriteLine();
                 Console.WriteLine("The player cannot heal a negative ammount");
             }
 
@@ -157,7 +154,7 @@ namespace HealthSystemAPI
             else
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("The player is gaining" + expPoints + " points of experience");
+                Console.WriteLine("The player is gaining " + expPoints + " points of experience");
                 playerExperience = playerExperience + expPoints;
                 if(playerExperience > 100)
                 {
@@ -165,6 +162,8 @@ namespace HealthSystemAPI
                     playerExperience = spillOver;
                 }
             }
+
+            Console.WriteLine("The player has " + playerExperience + " experience points");
         }
 
         static void LevelUp()
@@ -175,6 +174,8 @@ namespace HealthSystemAPI
                 Console.WriteLine("The player is leveling up");
                 playerLevel += 1;
             }
+
+            Console.WriteLine("Player Level: " + playerLevel);
         }
 
         static void TakeDamage(int damage)
@@ -196,13 +197,16 @@ namespace HealthSystemAPI
                     if (playerShield < 0)
                     {
                         spillOverAmout = playerShield;
-                        playerHealth = playerHealth - spillOverAmout;
+                        playerHealth = playerHealth + spillOverAmout;
                         playerShield = 0;
                         if (playerHealth <= 0)
                         {
                             playerLives -= 1;
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Player is about to lose a life");
+                            Console.WriteLine();
+                            playerHealth = 100;
+                            playerShield = 100;
                             if (playerLives <= 0)
                             {
                                 playerLives = 0;
@@ -222,6 +226,9 @@ namespace HealthSystemAPI
                         playerLives -= 1;
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Player is about to lose a life");
+                        Console.WriteLine();
+                        playerHealth = 100;
+                        playerShield = 100;
                         if (playerLives <= 0)
                         {
                             playerLives = 0;
