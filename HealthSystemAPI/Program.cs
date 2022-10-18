@@ -38,11 +38,8 @@ namespace HealthSystemAPI
             while(playerLives > 0)
             {
                 ShowHUD();
-                TakeDamage(150);
-                ShowHUD();
-                HealHP(35);
-                ShowHUD();
                 
+                ShowHUD();                
                 Console.ReadKey(true);
             }
         }
@@ -217,9 +214,23 @@ namespace HealthSystemAPI
                 {
                     Console.WriteLine();
                     Console.WriteLine("The player is about to level up");
+                    playerLevel += 1;
+                    Console.WriteLine();
+                    Console.WriteLine("Player level: " + playerLevel);
+                    Console.WriteLine();
                     spillOver = playerExperience - 100;
                     playerExperience = spillOver;
-                    playerLevel += 1;
+                    while (spillOver >= 100)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("The player is still leveling up");
+                        Console.WriteLine();
+                        playerLevel = playerLevel + 1;
+                        Console.WriteLine("Player Level: " + playerLevel);
+                        spillOver = playerExperience - 100;
+                        playerExperience = spillOver;
+                    }
+                    
                 }
             }
             Console.WriteLine();
