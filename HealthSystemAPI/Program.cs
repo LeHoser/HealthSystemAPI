@@ -38,12 +38,11 @@ namespace HealthSystemAPI
             while(playerLives > 0)
             {
                 ShowHUD();
-                TakeDamage(200);
+                TakeDamage(150);
                 ShowHUD();
-                TakeDamage(200);
+                HealHP(35);
                 ShowHUD();
-                TakeDamage(200);
-                ShowHUD();
+                
                 Console.ReadKey(true);
             }
         }
@@ -56,6 +55,7 @@ namespace HealthSystemAPI
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Player HP: " + playerHealth);
                 HealthStatus();
+                Console.WriteLine("Player Mana: " + playerMana);
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("===========");
                 Console.ForegroundColor = ConsoleColor.Blue;
@@ -162,6 +162,7 @@ namespace HealthSystemAPI
             {
                 if (playerHealth < 100 && playerMana >= 5)
                 {
+                    Console.WriteLine();
                     Console.Write("Player is about to heal ");
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write(healAmount);
