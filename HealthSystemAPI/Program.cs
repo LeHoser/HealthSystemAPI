@@ -39,6 +39,7 @@ namespace HealthSystemAPI
             {
                 ShowHUD();
                 
+                ShowHUD();
                 Console.ReadKey(true);
             }
         }
@@ -58,7 +59,9 @@ namespace HealthSystemAPI
             Console.WriteLine("Player Lives: " + playerLives);
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("===========");
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Player Experience: " + playerExperience);
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("===========");
         }
 
@@ -112,6 +115,7 @@ namespace HealthSystemAPI
             {
                 Console.WriteLine();
                 Console.WriteLine("The player cannot heal a negative ammount");
+                Console.WriteLine();
             }
 
             else
@@ -149,12 +153,16 @@ namespace HealthSystemAPI
 
             if(expPoints < 0)
             {
+                Console.WriteLine();
                 Console.WriteLine("Player cannot take negative experience points");
+                Console.WriteLine();
             }
             else
             {
+                Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("The player is gaining " + expPoints + " points of experience");
+                Console.WriteLine();
                 playerExperience = playerExperience + expPoints;
                 if(playerExperience > 100)
                 {
@@ -162,16 +170,21 @@ namespace HealthSystemAPI
                     playerExperience = spillOver;
                 }
             }
-
+            Console.WriteLine();
             Console.WriteLine("The player has " + playerExperience + " experience points");
+            Console.WriteLine();
         }
 
         static void LevelUp()
         {
+            Console.WriteLine();
+            Console.WriteLine("Player is gaining experience!");
+            Console.WriteLine();
             if (playerExperience >= playerExperienceThreshhold)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("The player is leveling up");
+                Console.WriteLine();
                 playerLevel += 1;
             }
 
@@ -244,15 +257,19 @@ namespace HealthSystemAPI
         {
             if(healAmount < 0)
             {
+                Console.WriteLine();
                 Console.WriteLine("Player cannot regenerate a negative amount");
+                Console.WriteLine();
             }
 
             else
             {
                 if (playerShield < 100)
                 {
+                    Console.WriteLine();
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Player is regenerating " + healAmount + " points of shields");
+                    Console.WriteLine();
                     playerShield = playerShield + healAmount;
                     if (playerShield > 100)
                     {
